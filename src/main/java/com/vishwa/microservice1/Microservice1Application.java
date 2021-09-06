@@ -10,22 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ *
+ * 1. I want to create a service - Expose REST EndPoints
+ *
+ *    GET 127.0.0.1:7001/ms1/v1/messages
+ *
+ * 2. I want to auto registered with Eureka Server
+ * a. Add the dependency Eureka client in POM.xml
+ * b. Add configurations in the application.properties file
+ * c. Add the annotation in the main class
+ *
+ */
+
+@EnableDiscoveryClient
 @SpringBootApplication
 @RestController
 @RequestMapping("/messages")
-@EnableDiscoveryClient
 public class Microservice1Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Microservice1Application.class, args);
 	}
 
-
-
 	@GetMapping
-	public ResponseEntity sayHello(){
-		return new ResponseEntity("Hello from the Microservice 1", HttpStatus.OK);
+	public ResponseEntity helloMessage(){
+		return new ResponseEntity("Hello from Microservice1", HttpStatus.OK);
 	}
+
+
 
 
 }
