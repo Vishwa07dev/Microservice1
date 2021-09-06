@@ -1,8 +1,10 @@
 package com.vishwa.microservice1;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 
+
+@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
 @RestController
 @RequestMapping("/messages")
 public class Microservice1Application {
+
+  @Autowired
+	private Microservice2Client microservice2Client;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Microservice1Application.class, args);
@@ -35,7 +42,8 @@ public class Microservice1Application {
 
 	@GetMapping
 	public ResponseEntity helloMessage(){
-		return new ResponseEntity("Hello from Microservice1", HttpStatus.OK);
+
+		return new ResponseEntity("Hello from Microservice1 plus getting the response from other service " + microservice2Client.getMessage(), HttpStatus.OK);
 	}
 
 
